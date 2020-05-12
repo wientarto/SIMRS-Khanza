@@ -2,7 +2,7 @@
 <?php
    $_sql         = "SELECT * FROM set_tahun";
    $hasil        = bukaquery($_sql);
-   $baris        = mysql_fetch_row($hasil);
+   $baris        = mysqli_fetch_row($hasil);
    $tahun         = $baris[0];
    $bln_leng=strlen($baris[1]);
    $bulan="0";
@@ -36,21 +36,21 @@
     <div style="width: 100%; height: 80%; overflow: auto;">
     <?php
         
-	$keyword=trim(isset($_POST['keyword']))?trim($_POST['keyword']):NULL;        
-
-        $_sql = "SELECT pegawai.id,pegawai.nik,pegawai.nama,
-		        pegawai.departemen,sum(bsr_jasa)
+	$keyword = trim(isset($_POST['keyword']))?trim($_POST['keyword']):NULL;        
+         $keyword = validTeks($keyword);
+         $_sql = "SELECT pegawai.id,pegawai.nik,pegawai.nama,
+                pegawai.departemen,sum(bsr_jasa)
                 FROM jasa_lain right OUTER JOIN pegawai
-				ON jasa_lain.id=pegawai.id and thn='".$tahun."'
-                                and bln='".$bulan."'
-				where  pegawai.stts_aktif<>'KELUAR' and pegawai.nik like '%".$keyword."%' or 
-				pegawai.stts_aktif<>'KELUAR' and pegawai.nama like '%".$keyword."%' or
-				pegawai.stts_aktif<>'KELUAR' and pegawai.departemen like '%".$keyword."%' 
-				group by pegawai.id order by pegawai.id ASC ";
+                ON jasa_lain.id=pegawai.id and thn='".$tahun."'
+                and bln='".$bulan."'
+                where  pegawai.stts_aktif<>'KELUAR' and pegawai.nik like '%".$keyword."%' or 
+                pegawai.stts_aktif<>'KELUAR' and pegawai.nama like '%".$keyword."%' or
+                pegawai.stts_aktif<>'KELUAR' and pegawai.departemen like '%".$keyword."%' 
+                group by pegawai.id order by pegawai.id ASC ";
         $hasil=bukaquery($_sql);
-        $jumlah=mysql_num_rows($hasil);
+        $jumlah=mysqli_num_rows($hasil);
         $ttljm=0;
-        if(mysql_num_rows($hasil)!=0) {
+        if(mysqli_num_rows($hasil)!=0) {
             echo "<table width='99.6%' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>
                     <tr class='head'>
                         <td width='9%'><div align='center'>Proses</div></td>
@@ -59,7 +59,7 @@
                         <td width='15%'><div align='center'>Depart</div></td>
                         <td width='20%'><div align='center'>Total Jasa lain</div></td>
                     </tr>";
-                    while($baris = mysql_fetch_array($hasil)) {
+                    while($baris = mysqli_fetch_array($hasil)) {
                         $ttljm=$ttljm+$baris[4];
                         echo "<tr class='isi' title='$baris[1] $baris[2]'>
                                 <td>

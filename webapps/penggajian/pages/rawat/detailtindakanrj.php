@@ -10,9 +10,9 @@
             <?php
                 echo "";
                 $action             =isset($_GET['action'])?$_GET['action']:NULL;				
-		$id                 =isset($_GET['id'])?$_GET['id']:NULL;
-		$nama               =str_replace("_"," ",isset($_GET['nama']))?str_replace("_"," ",$_GET['nama']):NULL;
-		$jm                 =isset($_GET['jm'])?$_GET['jm']:NULL;
+                $id                 =isset($_GET['id'])?$_GET['id']:NULL;
+                $nama               =str_replace("_"," ",isset($_GET['nama']))?str_replace("_"," ",$_GET['nama']):NULL;
+                $jm                 =isset($_GET['jm'])?$_GET['jm']:NULL;
                 $jns                =str_replace("_"," ",isset($_GET['jns']))?str_replace("_"," ",$_GET['jns']):NULL;
       
                 echo "<input type=hidden name=id  value=$id><input type=hidden name=action value=$action>";
@@ -50,10 +50,10 @@
             <?php
                 $BtnSimpan=isset($_POST['BtnSimpan'])?$_POST['BtnSimpan']:NULL;
                 if (isset($BtnSimpan)) {
-		    $id                   =trim($_POST['id']);
-                    $nama                 =trim($_POST['nama']);
-                    $jm                   =trim($_POST['jm']);
-                    $jns                  =trim($_POST['jns']);
+                    $id                   = trim($_POST['id']);
+                    $nama                 = validTeks(trim($_POST['nama']));
+                    $jm                   = validangka(trim($_POST['jm']));
+                    $jns                  = validTeks(trim($_POST['jns']));
                     if ((!empty($nama))&&(!empty($jm))) {
                         switch($action) {
                             case "TAMBAH":
@@ -74,9 +74,9 @@
             <?php
                 $_sql = "SELECT id,nama,jm,jns from master_tindakan ORDER BY jns,nama ASC ";
                 $hasil=bukaquery($_sql);
-                $jumlah=mysql_num_rows($hasil);
+                $jumlah=mysqli_num_rows($hasil);
 
-                if(mysql_num_rows($hasil)!=0) {
+                if(mysqli_num_rows($hasil)!=0) {
                     echo "<table width='99.6%' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>
                             <tr class='head'>
                                 <td width='12%'><div align='center'>Proses</div></td>
@@ -84,7 +84,7 @@
                                 <td width='28%'><div align='center'>JM Tindakan</div></td>
                                 <td width='25%'><div align='center'>Jns.Tindakan</div></td>
                             </tr>";
-                    while($baris = mysql_fetch_array($hasil)) {
+                    while($baris = mysqli_fetch_array($hasil)) {
                       echo "<tr class='isi'>
                                 <td>
                                     <center>

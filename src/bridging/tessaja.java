@@ -5,14 +5,12 @@
  */
 package bridging;
 
-import static bridging.tessaja2.api;
-
 /**
  *
  * @author khanzasoft
  */
 public class tessaja {
-    public static BPJSApi api=new BPJSApi();
+    public static ApiBPJS api=new ApiBPJS();
     public static void tessaja(){
         System.out.println("X-Timestamp:"+String.valueOf(api.GetUTCdatetimeAsString()));
         System.out.println("X-Signature:"+api.getHmac());

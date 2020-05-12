@@ -63,6 +63,7 @@
         }
         
         $keyword=trim(isset($_POST['keyword']))?trim($_POST['keyword']):NULL;
+        $keyword= validTeks($keyword);
         $_sql = "SELECT pegawai.id, pegawai.nik, pegawai.nama, temporary_presensi.shift,
                 temporary_presensi.jam_datang, temporary_presensi.jam_pulang, temporary_presensi.status, 
                 temporary_presensi.keterlambatan, temporary_presensi.durasi, temporary_presensi.photo  from pegawai 
@@ -77,9 +78,9 @@
 
        
         $hasil=bukaquery($_sql);
-        $jumlah=mysql_num_rows($hasil);
+        $jumlah=mysqli_num_rows($hasil);
         
-        if(mysql_num_rows($hasil)!=0) { 
+        if(mysqli_num_rows($hasil)!=0) { 
             $i=1;
             
             echo "<table width='1500px' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>
@@ -95,7 +96,7 @@
                         <td width='100px'><div align='center'><font size='2' face='Comic Sans Ms'><strong> <a href='?page=TampilDatang&order=15'> < </a> Durasi <a href='?page=TampilDatang&order=16'> > </a> </strong></font></div></td>
                         <td width='100px'><div align='center'><font size='2' face='Comic Sans Ms'><strong> Photo </strong></font></div></td>
                     </tr>";
-                    while($baris = mysql_fetch_array($hasil)) {            
+                    while($baris = mysqli_fetch_array($hasil)) {            
                         $gb="-";
                         if($baris[9]=="pages/pegawai/"){
                             $gb="-";                            
@@ -124,7 +125,7 @@
               
  </form>
     <?php
-        if(mysql_num_rows($hasil)!=0) {
+        if(mysqli_num_rows($hasil)!=0) {
             echo("Data : $jumlah ");
         }
     ?>

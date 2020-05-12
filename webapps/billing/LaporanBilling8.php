@@ -6,6 +6,9 @@
         <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
     </head>
     <body bgcolor='#ffffff'>
+        <script type="text/javascript">
+            window.onload = function() { window.print(); }
+        </script>
 
     <?php
         reportsqlinjection();        
@@ -16,8 +19,8 @@
         $_sql = "select temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10, temp11, temp12, temp13, temp14 from temporary_bayar_ranap order by no asc";   
         $hasil=bukaquery($_sql);
         
-        if(mysql_num_rows($hasil)!=0) { 
-            $setting=  mysql_fetch_array(bukaquery("select nama_instansi,alamat_instansi,kabupaten,propinsi,kontak,email,logo from setting"));
+        if(mysqli_num_rows($hasil)!=0) { 
+            $setting=  mysqli_fetch_array(bukaquery("select nama_instansi,alamat_instansi,kabupaten,propinsi,kontak,email,logo from setting"));
             echo "  
             <table width='".getOne("select kwitansiranap from set_nota")."' bgcolor='#ffffff' align='left' border='0' padding='0' class='tbl_form' cellspacing='0' cellpadding='0'>
                 <tr class='isi12' padding='0' width='100%' height='350px' >
@@ -63,7 +66,7 @@
                                     <tr valign='top'>
                                        <td><font color='333333' size='3'  face='Tahoma'>Uang Sebanyak</font></td>
                                        <td><font color='333333' size='3'  face='Tahoma'>:</font></td>
-                                       <td><font color='333333' size='3'  face='Tahoma'>".Terbilang(str_replace("</b>","",str_replace("<b>","",str_replace(".","",str_replace(",","",getOne("select temp7 from temporary_bayar_ranap where temp1='UANG MUKA'"))))))." rupiah</font></td>
+                                       <td><font color='333333' size='3'  face='Tahoma'>".Terbilang(str_replace("</b>","",str_replace("<b>","",str_replace(".","",str_replace(",","",getOne("select temp7 from temporary_bayar_ranap where temp1='EKSES'"))))))." rupiah</font></td>
                                     </tr>
                                     <tr valign='top'>
                                        <td><font color='333333' size='3'  face='Tahoma'>Untuk Pembayaran</font></td>
@@ -90,7 +93,7 @@
                                     <tr>
                                        <td align='right'><font color='333333' size='3'  face='Tahoma'>Terbilang</font></td>
                                        <td><font color='333333' size='3'  face='Tahoma'></font></td>
-                                       <td><font color='333333' size='3'  face='Tahoma'>Rp. ".getOne("select temp7 from temporary_bayar_ranap where temp1='UANG MUKA'")."</font></td>
+                                       <td><font color='333333' size='3'  face='Tahoma'>Rp. ".getOne("select temp7 from temporary_bayar_ranap where temp1='EKSES'")."</font></td>
                                     </tr>
 
                                     <tr>

@@ -17,7 +17,7 @@
                 }else if($action == "UBAH"){
                     $_sql         = "SELECT * FROM fungsional WHERE kode='$TxtKode'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $TxtKode      = $baris[0];
                     $TxtNama    = $baris[1];
                 }
@@ -42,7 +42,9 @@
                 $BtnSimpan=$_POST['BtnSimpan'];
                 if (isset($BtnSimpan)) {
                     $TxtKode   = trim($_POST['TxtKode']);
-                    $TxtNama = trim($_POST['TxtNama']);
+                    $TxtKode   = validTeks($TxtKode);
+                    $TxtNama   = trim($_POST['TxtNama']);
+                    $TxtNama   = validTeks($TxtNama);
                     if ((!empty($TxtKode))&&(!empty($TxtNama))) {
                         switch($action) {
                             case "TAMBAH":

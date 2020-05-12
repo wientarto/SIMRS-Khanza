@@ -37,7 +37,9 @@
                 if (isset($BtnSimpan)) {
 		    $id                 =trim(isset($_POST['id']))?trim($_POST['id']):NULL;
                     $nama               =trim(isset($_POST['nama']))?trim($_POST['nama']):NULL;
+                    $nama               = validTeks($nama);
                     $tnj                =trim(isset($_POST['tnj']))?trim($_POST['tnj']):NULL;
+                    $tnj                = validangka($tnj);
                     if ((!empty($nama))&&(!empty($tnj))) {
                         switch($action) {
                             case "TAMBAH":
@@ -58,16 +60,16 @@
             <?php
                 $_sql = "SELECT id,nama,tnj from master_tunjangan_bulanan ORDER BY nama ASC ";
                 $hasil=bukaquery($_sql);
-                $jumlah=mysql_num_rows($hasil);
+                $jumlah=mysqli_num_rows($hasil);
 
-                if(mysql_num_rows($hasil)!=0) {
+                if(mysqli_num_rows($hasil)!=0) {
                     echo "<table width='99.6%' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>
                             <tr class='head'>
                                 <td width='12%'><div align='center'>Proses</div></td>
                                 <td width='55%'><div align='center'>Nama Tunjangan</div></td>
                                 <td width='33%'><div align='center'>Besar Tunjangan</div></td>
                             </tr>";
-                    while($baris = mysql_fetch_array($hasil)) {
+                    while($baris = mysqli_fetch_array($hasil)) {
                       echo "<tr class='isi'>
                                 <td>
                                     <center>

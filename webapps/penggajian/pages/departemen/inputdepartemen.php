@@ -18,7 +18,7 @@
                 }else if($action == "UBAH"){
                     $_sql         = "SELECT * FROM departemen WHERE dep_id='$dep_id'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $dep_id         = $baris[0];
                     $nama          = $baris[1];
                 }
@@ -42,8 +42,10 @@
             <?php
                 $BtnSimpan=isset($_POST['BtnSimpan'])?$_POST['BtnSimpan']:NULL;
                 if (isset($BtnSimpan)) {
-                    $dep_id    = trim($_POST['dep_id']);
+                    $dep_id  = trim($_POST['dep_id']);
+                    $dep_id  = validTeks($dep_id);
                     $nama    = trim($_POST['nama']);
+                    $nama    = validTeks($nama);
                     if ((!empty($dep_id))&&(!empty($nama))) {
                         switch($action) {
                             case "TAMBAH":

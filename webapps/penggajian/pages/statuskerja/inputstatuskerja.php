@@ -19,7 +19,7 @@
                 }else if($action == "UBAH"){
                     $_sql         = "SELECT * FROM stts_kerja WHERE stts='$stts'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $stts         = $baris[0];
                     $ktg          = $baris[1];
                     $indek        = $baris[2];
@@ -50,9 +50,9 @@
             <?php
                 $BtnSimpan=isset($_POST['BtnSimpan'])?$_POST['BtnSimpan']:NULL;
                 if (isset($BtnSimpan)) {
-                    $stts    = trim($_POST['stts']);
-                    $ktg    = trim($_POST['ktg']);
-                    $indek   = trim($_POST['indek']);
+                    $stts    = validTeks(trim($_POST['stts']));
+                    $ktg    = validTeks(trim($_POST['ktg']));
+                    $indek   = validTeks(trim($_POST['indek']));
                     if ((!empty($stts))&&(!empty($ktg))&&(!empty($indek))) {
                         switch($action) {
                             case "TAMBAH":

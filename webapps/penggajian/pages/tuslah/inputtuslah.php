@@ -3,7 +3,7 @@
 <?php
    $_sql         = "SELECT * FROM set_tahun";
    $hasil        = bukaquery($_sql);
-   $baris        = mysql_fetch_row($hasil);
+   $baris        = mysqli_fetch_row($hasil);
    $tahun         = $baris[0];
    $bulan          = $baris[1];
 ?>
@@ -30,7 +30,7 @@
                                     bagian_rs,persen_kry,bagian_kry
                                     FROM set_tuslah WHERE tahun='$tahun' and bulan='$bulan'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $pendapatan_tuslah = $baris[0];
                     $persen_rs       = $baris[1];
 		    $bagian_rs       = $baris[2];
@@ -65,15 +65,18 @@
 			
 				$_sql         = "SELECT * FROM set_tahun";
 				$hasil        = bukaquery($_sql);
-				$baris        = mysql_fetch_row($hasil);
+				$baris        = mysqli_fetch_row($hasil);
 				$tahun         = $baris[0];
 				$bulan          = $baris[1];
 
                 if (isset($BtnSimpan)) {
                     $pendapatan_tuslah    = trim($_POST['pendapatan_tuslah']);
+                    $pendapatan_tuslah      = validTeks($pendapatan_tuslah);
                     $persen_rs          = trim($_POST['persen_rs']);
+                    $persen_rs              = validangka($persen_rs);
 		    $bagian_rs          =($persen_rs/100)*$pendapatan_tuslah;
                     $persen_kry         = trim($_POST['persen_kry']);
+                    $persen_kry         = validangka($persen_kry);
 		    $bagian_kry         =($persen_kry/100)*$pendapatan_tuslah;
                     if (!empty($pendapatan_tuslah)) {
                         switch($action) {

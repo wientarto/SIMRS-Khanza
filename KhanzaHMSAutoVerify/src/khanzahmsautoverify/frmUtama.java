@@ -5,6 +5,7 @@
  */
 package khanzahmsautoverify;
 
+import AESsecurity.EnkripsiAES;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -233,7 +234,7 @@ public class frmUtama extends javax.swing.JFrame {
             ps=koneksi.prepareStatement(
                     "SELECT pegawai.id, pegawai.nik, pegawai.nama, temporary_presensi.shift, " +
                     "temporary_presensi.jam_datang, now() as jam_pulang, temporary_presensi.status,  " +
-                    "temporary_presensi.keterlambatan, ((unix_timestamp(now()) - unix_timestamp(jam_datang))/3600) as durasi,photo  from pegawai  " +
+                    "temporary_presensi.keterlambatan, ((unix_timestamp(now()) - unix_timestamp(jam_datang))/3600) as durasi,temporary_presensi.photo  from pegawai  " +
                     "inner join temporary_presensi on pegawai.id=temporary_presensi.id ");
             try {
                 rs=ps.executeQuery(); 
@@ -334,11 +335,11 @@ public class frmUtama extends javax.swing.JFrame {
         try {
             prop.loadFromXML(new FileInputStream("setting/database.xml"));
             MysqlDataSource server=new MysqlDataSource();
-            server.setServerName(prop.getProperty("HOST"));
-            server.setPort(Integer.parseInt(prop.getProperty("PORT")));
-            server.setUser(prop.getProperty("USER"));
-            server.setPassword(prop.getProperty("PAS"));
-            server.setDatabaseName(prop.getProperty("DATABASE"));
+            server.setServerName(EnkripsiAES.decrypt(prop.getProperty("HOST")));
+            server.setPort(Integer.parseInt(EnkripsiAES.decrypt(prop.getProperty("PORT"))));
+            server.setUser(EnkripsiAES.decrypt(prop.getProperty("USER")));
+            server.setPassword(EnkripsiAES.decrypt(prop.getProperty("PAS")));
+            server.setDatabaseName(EnkripsiAES.decrypt(prop.getProperty("DATABASE")));
             koneksi=server.getConnection();
             textArea1.append("Tersambung ke server"+"  ");
         } catch (Exception e) {

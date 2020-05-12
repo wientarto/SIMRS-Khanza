@@ -3,7 +3,7 @@
 <?php
    $_sql         = "SELECT * FROM set_tahun";
    $hasil        = bukaquery($_sql);
-   $baris        = mysql_fetch_row($hasil);
+   $baris        = mysqli_fetch_row($hasil);
    $tahun         = $baris[0];
    $bulan          = $baris[1];
 ?>
@@ -30,7 +30,7 @@
                                     bagian_rs,persen_kry,bagian_kry
                                     FROM set_warung WHERE tahun='$tahun' and bulan='$bulan'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $pendapatan_warung = $baris[0];
                     $persen_rs       = $baris[1];
 		    $bagian_rs       = $baris[2];
@@ -65,15 +65,15 @@
 			
 		$_sql         = "SELECT * FROM set_tahun";
 		$hasil        = bukaquery($_sql);
-		$baris        = mysql_fetch_row($hasil);
+		$baris        = mysqli_fetch_row($hasil);
 		$tahun        = $baris[0];
 		$bulan        = $baris[1];
 
                 if (isset($BtnSimpan)) {
-                    $pendapatan_warung  = trim($_POST['pendapatan_warung']);
-                    $persen_rs          = trim($_POST['persen_rs']);
+                    $pendapatan_warung  = validangka(trim($_POST['pendapatan_warung']));
+                    $persen_rs          = validangka(trim($_POST['persen_rs']));
 		    $bagian_rs          =($persen_rs/100)*$pendapatan_warung;
-                    $persen_kry         = trim($_POST['persen_kry']);
+                    $persen_kry         = validangka(trim($_POST['persen_kry']));
 		    $bagian_kry         =($persen_kry/100)*$pendapatan_warung;
                     if ((!empty($pendapatan_warung))&&(!empty($persen_rs))&&(!empty($persen_kry))) {
                         switch($action) {

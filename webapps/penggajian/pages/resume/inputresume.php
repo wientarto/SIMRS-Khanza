@@ -3,7 +3,7 @@
 <?php
    $_sql         = "SELECT * FROM set_tahun";
    $hasil        = bukaquery($_sql);
-   $baris        = mysql_fetch_row($hasil);
+   $baris        = mysqli_fetch_row($hasil);
    $tahun         = $baris[0];
    $bulan          = $baris[1];
 ?>
@@ -30,7 +30,7 @@
                                     bagian_rs,persen_kry,bagian_kry
                                     FROM set_resume WHERE tahun='$tahun' and bulan='$bulan'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $pendapatan_resume = $baris[0];
                     $persen_rs       = $baris[1];
 		    $bagian_rs       = $baris[2];
@@ -65,15 +65,15 @@
 			
 				$_sql         = "SELECT * FROM set_tahun";
 				$hasil        = bukaquery($_sql);
-				$baris        = mysql_fetch_row($hasil);
+				$baris        = mysqli_fetch_row($hasil);
 				$tahun         = $baris[0];
 				$bulan          = $baris[1];
 
                 if (isset($BtnSimpan)) {
-                    $pendapatan_resume    = trim($_POST['pendapatan_resume']);
-                    $persen_rs          = trim($_POST['persen_rs']);
+                    $pendapatan_resume    = validangka(trim($_POST['pendapatan_resume']));
+                    $persen_rs          = validangka(trim($_POST['persen_rs']));
 		    $bagian_rs          =($persen_rs/100)*$pendapatan_resume;
-                    $persen_kry         = trim($_POST['persen_kry']);
+                    $persen_kry         = validangka(trim($_POST['persen_kry']));
 		    $bagian_kry         =($persen_kry/100)*$pendapatan_resume;
                     if ((!empty($pendapatan_resume))&&(!empty($persen_rs))&&(!empty($persen_kry))) {
                         switch($action) {

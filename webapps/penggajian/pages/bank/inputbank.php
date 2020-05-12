@@ -17,7 +17,7 @@
                 }else if($action == "UBAH"){
                     $_sql         = "SELECT * FROM bank WHERE namabank='$namabank'";
                     $hasil        = bukaquery($_sql);
-                    $baris        = mysql_fetch_row($hasil);
+                    $baris        = mysqli_fetch_row($hasil);
                     $namabank         = $baris[0];
                 }
                 echo"<input type=hidden name=namabank value=$namabank><input type=hidden name=action value=$action>";
@@ -35,6 +35,7 @@
                 $BtnSimpan=isset($_POST['BtnSimpan'])?$_POST['BtnSimpan']:NULL;
                 if (isset($BtnSimpan)) {
                     $namabank    = trim($_POST['namabank']);
+                    $namabank    = validTeks($namabank);   
                     if (!empty($namabank)) {
                         switch($action) {
                             case "TAMBAH":

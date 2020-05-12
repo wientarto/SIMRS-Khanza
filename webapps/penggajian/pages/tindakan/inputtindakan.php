@@ -2,7 +2,7 @@
 <?php
    $_sql         = "SELECT * FROM set_tahun";
    $hasil        = bukaquery($_sql);
-   $baris        = mysql_fetch_row($hasil);
+   $baris        = mysqli_fetch_row($hasil);
    $tahun         = $baris[0];
    $bln_leng=strlen($baris[1]);
    $bulan="0";
@@ -33,17 +33,17 @@
                 echo "<input type=hidden name=id  value=$id><input type=hidden name=tgl value=$tgl><input type=hidden name=action value=$action>";
 		        $_sql = "SELECT nik,nama FROM pegawai where id='$id'";
                 $hasil=bukaquery($_sql);
-                $baris = mysql_fetch_row($hasil);
+                $baris = mysqli_fetch_row($hasil);
 
                     $_sqlnext         	= "SELECT id FROM pegawai WHERE id>'$id' order by id asc limit 1";
                     $hasilnext        	= bukaquery($_sqlnext);
-                    $barisnext        	= mysql_fetch_row($hasilnext);
-                    $next               = $barisnext[0];
+                    $barisnext        	= mysqli_fetch_row($hasilnext);
+                    $next                   = $barisnext[0];
 
                     $_sqlprev         	= "SELECT id FROM pegawai WHERE id<'$id' order by id desc limit 1";
                     $hasilprev        	= bukaquery($_sqlprev);
-                    $barisprev        	= mysql_fetch_row($hasilprev);
-                    $prev               = $barisprev[0];
+                    $barisprev        	= mysqli_fetch_row($hasilprev);
+                    $prev                   = $barisprev[0];
                     
                     if(empty($next)){
                         $next=$prev;
@@ -76,7 +76,7 @@
                             <?php
                                 $_sql = "SELECT id,nama FROM master_tindakan where jns='Karyawan' ORDER BY nama";
                                 $hasil=bukaquery($_sql);
-                                while($baris = mysql_fetch_array($hasil)) {
+                                while($baris = mysqli_fetch_array($hasil)) {
                                     echo "<option id='TxtIsi1' value='$baris[0]'>$baris[1]</option>";
                                 }
                             ?>
@@ -102,14 +102,19 @@
                     $DetikDatang        =isset($_POST['DetikDatang'])?$_POST['DetikDatang']:"00";
                     $tgl                =$tahun."-".$bulan."-01 ".$JamDatang.":".$MenitDatang.":".$DetikDatang;
                     $tnd                =trim($_POST['tnd']);
-                    $_sql = "SELECT jm FROM master_tindakan where id='$tnd'";
-                    $hasil=bukaquery($_sql);
-                    $baris = mysql_fetch_array($hasil);
+                    $tnd                =validTeks($tnd);
+                    $_sql               = "SELECT jm FROM master_tindakan where id='$tnd'";
+                    $hasil              = bukaquery($_sql);
+                    $baris              = mysqli_fetch_array($hasil);
                     $jm                 =$baris[0];
                     $nm_pasien          =trim(isset($_POST['nm_pasien']))?trim($_POST['nm_pasien']):NULL;
+                    $nm_pasien          =validTeks($nm_pasien);
                     $kamar              =trim(isset($_POST['kamar']))?trim($_POST['kamar']):NULL;
+                    $kamar              =validTeks($kamar);
                     $diagnosa           =trim(isset($_POST['diagnosa'])?trim($_POST['diagnosa']):NULL);
+                    $diagnosa           =validTeks($diagnosa);
                     $jmlh               =trim(isset($_POST['jmlh']))?trim($_POST['jmlh']):NULL;
+                    $jmlh               = validangka($jmlh);
                     $ttljm              =$jm*$jmlh;
                     if ((!empty($id))&&(!empty($tnd))) {
                         switch($action) {
@@ -140,10 +145,10 @@
                         where tindakan.tnd=master_tindakan.id and tindakan.id='$id'
 			and tgl like '%".$tahun."-".$bulan."%' ORDER BY tgl ASC";
                 $hasil=bukaquery($_sql);
-                $jumlah=mysql_num_rows($hasil);
+                $jumlah=mysqli_num_rows($hasil);
                 $ttljm=0;
 
-                if(mysql_num_rows($hasil)!=0) {
+                if(mysqli_num_rows($hasil)!=0) {
                     echo "<table width='99.6%' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>
                             <tr class='head'>
                                 <td width='7%'><div align='center'>Proses</div></td>
@@ -151,7 +156,7 @@
                                 <td width='25%'><div align='center'>JM Tindakan</div></td>
                                 <td width='25%'><div align='center'>Jml.Tindakan</div></td>
                             </tr>";
-                    while($baris = mysql_fetch_array($hasil)) {
+                    while($baris = mysqli_fetch_array($hasil)) {
                         $ttljm=$ttljm+$baris[4];
                       echo "<tr class='isi'>
                                 <td width='70'>
@@ -176,7 +181,7 @@
                 Hapus(" tindakan "," id ='".$_GET['id']."' and tgl ='".$_GET['tgl']."' and tnd ='".$_GET['tnd']."'","?act=InputTindakan&action=TAMBAH&id=$id");
             }
 
-        if(mysql_num_rows($hasil)!=0) {
+        if(mysqli_num_rows($hasil)!=0) {
                 $hasil1=bukaquery("select tindakan.tgl,
                         tindakan.id,
                         tindakan.tnd,
@@ -189,7 +194,7 @@
                         from tindakan inner join master_tindakan
                         where tindakan.tnd=master_tindakan.id and tindakan.id='$id'
 			and tgl like '%".$tahun."-".$bulan."%' ORDER BY tgl ASC");
-                $jumladiv=mysql_num_rows($hasil1);
+                $jumladiv=mysqli_num_rows($hasil1);
                 $i=$jumladiv/19;
                 $i=ceil($i);
                 echo("<table width='99.6%' border='0' align='center' cellpadding='0' cellspacing='0' class='tbl_form'>

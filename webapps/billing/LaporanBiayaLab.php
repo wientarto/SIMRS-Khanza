@@ -17,11 +17,11 @@
         $petugas    =$_GET['petugas'];
         $kasir      =$_GET['kasir'];
 
-        $_sql = "select * from temporary where temp4='Pemeriksaan' order by no asc";   
+        $_sql = "select * from temporary_lab where temp4='Pemeriksaan' order by no asc";   
         $hasil=bukaquery($_sql);
         
-        if(mysql_num_rows($hasil)!=0) { 
-            $setting=  mysql_fetch_array(bukaquery("select nama_instansi,alamat_instansi,kabupaten,propinsi,kontak,email,logo from setting"));
+        if(mysqli_num_rows($hasil)!=0) { 
+            $setting=  mysqli_fetch_array(bukaquery("select nama_instansi,alamat_instansi,kabupaten,propinsi,kontak,email,logo from setting"));
             echo "   
             <table width='".getOne("select notalabrad from set_nota")."' bgcolor='#ffffff' align='left' border='0' padding='0' class='tbl_form' >
             <tr class='isi12' padding='0'>
@@ -88,15 +88,15 @@
                      </tr>
                      "; 
                         $z=1;
-                        while($item = mysql_fetch_array($hasil)) {
+                        while($item = mysqli_fetch_array($hasil)) {
                              echo "<tr class='isi'>
                                        <td><font color='000000' size='1'  face='Tahoma'>&nbsp;$z</font></td>
                                        <td><font color='000000' size='1'  face='Tahoma'>&nbsp;$item[2]</font></td>
                                        <td><font color='000000' size='1'  face='Tahoma'>&nbsp;".formatDuit($item[3])."</font></td>
                                    </tr>";  
-                             $_sql2 = "select * from temporary where temp4='Detail Pemeriksaan' and temp1='$item[1]' order by no asc";   
+                             $_sql2 = "select * from temporary_lab where temp4='Detail Pemeriksaan' and temp1='$item[1]' order by no asc";   
 							 $hasil2=bukaquery($_sql2);
-							 while($item2=mysql_fetch_array($hasil2)){
+							 while($item2=mysqli_fetch_array($hasil2)){
 								 $z++;
 								 echo "<tr class='isi'>
                                        <td><font color='000000' size='1'  face='Tahoma'>&nbsp;$z</font></td>
@@ -109,7 +109,7 @@
                         echo "<tr>
                                   <td><font color='000000' size='1'  face='Tahoma'>&nbsp;</font></td>
                                   <td><font color='000000' size='1'  face='Tahoma'>&nbsp;<b>Total Biaya Pemeriksaan Lab</b></font></td>
-                                  <td><font color='000000' size='1'  face='Tahoma'>&nbsp;<b>".formatDuit(getOne("select temp3 from temporary where temp2='Total Biaya Pemeriksaan Lab'"))."</b></font></td>
+                                  <td><font color='000000' size='1'  face='Tahoma'>&nbsp;<b>".formatDuit(getOne("select temp3 from temporary_lab where temp2='Total Biaya Pemeriksaan Lab'"))."</b></font></td>
                              </tr>"; 
             
             echo "
